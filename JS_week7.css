@@ -1,0 +1,264 @@
+/**=========
+通用樣式
+============*/
+* {
+    margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+:root{
+    --primary-color500: #004E4D;
+    --primary-color400: #00807E;
+    --primary-color300: #64C3BF;
+    --neutal-color600: #757575;
+    --neutal-color500: #9E9E9E;
+    --neutal-color400: #BDBDBD;
+    --neutal-color300: #E0E0E0;
+    --neutal-color200: #EEEEEE;
+    --neutal-color100: #F7F7F7;
+    --neutal-color0: #FFFFFF;
+    --background-color: #FAFAFA;
+}
+.container{
+    width: calc(100% - 240px - 240px);
+}
+a {
+	text-decoration: none;
+}
+
+
+
+.justify-center{
+    justify-content: center;
+}
+
+.justify-between{
+    justify-content: space-between;
+}
+
+.align-items-center{
+    align-items: center;
+}
+
+.align-self-center{
+    align-self: center;
+}
+.label-xl{
+    font-size: 24px;
+    line-height: 150%;
+}
+
+.pt-72{
+    padding-top: 72px;
+}
+
+
+
+
+
+/**=========
+頁面樣式
+============*/
+
+.whiteboard{
+    justify-content: center;
+    margin-top: 120px;
+    margin-bottom: 120px;
+    background-color: var(--neutal-color0);
+    border-radius: 12px;
+    padding-top: 64px;
+    padding-bottom: 48px;
+    gap:24px;
+    
+    
+}
+.penguin-img img,
+.goTravel-img img {
+    display: block;
+    width: 90%;
+    margin: 0 auto;
+}
+
+
+form h1{
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--primary-color400);
+    border-bottom: var(--primary-color400) solid 2px;
+}
+form input,
+form label{
+    font-size: 16px;
+}
+
+div.ticket-form {
+    align-items: center;
+}
+
+/**輸入框客製**/
+label.col-form-label { 
+    color: var(--primary-color400);
+    font-size: 16px;
+    font-weight: bold;
+    
+    
+}
+
+input.form-control,
+select.form-select:not(.form-select-second),
+textarea.form-control {
+    background-color: var(--neutal-color100);
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom:var(--primary-color400) 2px solid; 
+    border-radius: 0%;
+}
+
+
+
+div.submit{
+    justify-content: flex-end;
+}
+
+.submit button{
+    color: var(--neutal-color0);
+    background-color: var(--primary-color400);
+    padding-inline: 32px;
+
+    &:hover{
+        background-color: var(--primary-color500);
+    }
+}
+
+
+
+/**下方灰色區**/
+
+.background-gray{
+    background-color: var(--background-color);
+}
+
+.mt-64{
+    margin-top: 64px;
+}
+
+
+
+li.ticketCard{
+    width: 31.5%;
+    border-radius: 8px;
+    margin-bottom: 48px;
+}
+
+
+.ticketCard-img-wrapper{
+    width: 100%;
+    height: 180px;
+    overflow: hidden; /* 圖片視窗：將溢出裁切 */
+    
+}
+
+.ticketCard-img{
+    width: 100%;
+    height: 100%; /* 確保圖片填滿 wrapper */
+    object-fit: cover;
+    transition: transform 0.5s ease; /* 過度緩衝 */
+    
+}
+.ticketCard-img:hover {
+    transform: scale(1.2) ;
+    
+}
+
+
+.ticketCard-name{
+    color: var(--primary-color400);
+    font-size: 18px;
+    font-weight: bold;
+    border-bottom: var(--primary-color400) 2px solid;
+}
+.ticketCard-description{
+    word-wrap:break-word;
+}
+.neutal600-sm{
+    color: var(--neutal-color600);
+    font-size: 16px;
+    line-height: 150%;
+}
+
+.primary400-sm{
+    color: var(--primary-color400);
+    font-size: 14px;
+    line-height: 150%;
+}
+.bi-exclamation-circle-fill{
+    color: var(--primary-color400); 
+}
+.relative{
+    position: relative;
+}
+.ticketCard-area{
+    background-color: var(--primary-color300);
+    color: var(--neutal-color0);
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 0px 4px 4px 0px;
+    padding: 4px;
+    text-align: center;
+    padding: 4px 16px;
+}
+.absolute{
+    position: absolute;
+    left: 0;
+    top: -15%;
+    z-index: 3;
+}
+
+
+.ticketCard-rate{
+    background-color: var(--primary-color400);
+    border-radius: 0px 4px 4px 0px;
+    color: var(--neutal-color0);
+    text-align: center;
+    padding: 4px 16px;
+}
+
+
+.ticketCard-section{
+    padding-top: 96px;
+    padding-left: 0;
+}
+/**查無地區**/
+.cantFind-area h3{
+    color: var(--primary-color400);
+    text-align: center;
+    margin-bottom: 32px;
+    font-size: 24px;
+}
+
+.cantFind-area div{
+    text-align: center;
+}
+.cantFind-area img{
+    width: 50%;
+}
+
+.cantFind-area{
+    display: none;
+}
+
+.cantFind-area.appear{
+    display: block;
+}
+
+/** 圓餅圖 **/
+.donutChart{
+    height: 150px;
+}
+
+
