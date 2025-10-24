@@ -11,7 +11,8 @@
 1. **下載專案**
    ```bash
    git clone https://github.com/TTW-TW/JS_week7.git
-   cd JS_week7```
+   cd yourPath
+   ```
 
 2. **啟動專案**
 - 使用 Live Server：
@@ -20,14 +21,13 @@
 - 或直接打開 JS_week7.html 檔案於瀏覽器中。
 
 ## 檔案結構
-JS_week7/
-├── .git/                  # Git 版本控制資料夾
-├── .gitattributes         # Git 屬性設定檔
-├── [JS_week7.css](http://_vscodecontentref_/6)           # 自訂樣式檔案
-├── [JS_week7.html](http://_vscodecontentref_/7)          # 主 HTML 檔案
-├── [JS_week7.js](http://_vscodecontentref_/8)            # 主 JavaScript 檔案
-├── [JS_week7_reset.css](http://_vscodecontentref_/9)     # CSS Reset 檔案
-└── [README.md](http://_vscodecontentref_/10)              # 專案說明文件
+
+    JS_week7/
+    ├── JS_week7.css
+    ├── JS_week7.html
+    ├── JS_week7.js
+    ├── JS_week7_reset.css
+    └── README.md
 
 
 ## 主要功能
@@ -47,6 +47,6 @@ JS_week7/
 4. 查看右上角的圓餅圖，了解各地區套票的分佈。
 
 ## 可配置變數
-地區選項：可在 HTML 中的 <select> 元素中新增或修改地區選項。
-圓餅圖顏色：可在 JS_week7.js 中的 color.pattern 屬性中調整。
+- 地區選項：可在 HTML 中的 <select> 元素中新增或修改地區選項。
+- 圓餅圖顏色：可在 JS_week7.js 中的 color.pattern 屬性中調整。
 
