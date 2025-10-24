@@ -1,28 +1,26 @@
-
 /** 
 ================渲染套票：思路總說明===========
-1. 創建一個大陣列，收納所有前端應顯示的套票資料
+1. 創建一個大陣列，收納所有前端應顯示的套票資料。另外創建以下函式
     - 函數1【根據下拉選單地區，展示商品卡片及選中筆數】
-    - 函數2【更新實際查詢筆數文字】
-    - 函式3【建立資料轉換成變數 + 組成 innerHTML 模板】
+        - 函式2【更新實際查詢筆數的p標籤文字】(也有包在函式1中)
+        - 函式3【建立資料轉換成變數 + 組成 innerHTML 模板】(也有包在函式1中)
     - 函式4【創建並更新圓餅圖圖表所需陣列】
 2. axios：將 api 的 3 筆 data 資料添加到大陣列前端進行渲染
+    2-1 axio 基礎串接程序
+    2-2 將api資料跑迴圈，執行函式3、1
+    2-3 執行函式4【創建並更新圓餅圖圖表所需陣列】
 3. 監聽使用者在前端的 input 提交，
     3-1 先進行表單驗證(包含數值型態規則、欄位必填)，
     3-2 取得前端當前 input 值，添加至大陣列的末端(以利下一階段區域篩選)，
     3-3 將大陣列的最後一筆結果渲染至前端(以利input完成當下即時展示)
-(新增)4. 執行函數1【根據下拉選單地區，展示商品卡片及選中筆數】
+    3-4 執行函式4【創建並更新圓餅圖圖表所需陣列】
+    3-5 執行函數1【根據下拉選單地區，展示商品卡片及選中筆數】
+    
 ====================================
 **/
 
 // 1.創建一個大陣列，收納所有已新增的套票資訊，後續地區篩選也使用這個陣列
 const currentDataArray = []; 
-let  idCount = 0; // 大陣列的id，與既有data 的 id 區隔
-
-// 更新下方「本次搜尋共 n 筆資料」內容
-const searchResultText = document.querySelector('.search-result');
-let currentTicketNum = currentDataArray.length;
-
 
 // 函數1【根據下拉選單地區，展示商品卡片及選中筆數】
 const ulInsertTicket = document.querySelector('ul.ticketCard-section')
@@ -49,11 +47,11 @@ function showNumByArea (area){
 
     // 將被選中的陣列添加到前端套票列表
     chosenDataArray.forEach(element => { 
-        //添加到 ul 末端，運用已經事先寫好的 innerHTML模板
+        //添加到 ul 末端，運用已經事先寫好的 innerHTML模板 (函式3)
         ulInsertTicket.insertAdjacentHTML('beforeend', dataValueToHTML(element));
     });
 
-    // 3.更新本次選中的「筆數」
+    // 3.更新本次選中的「筆數」文字 (函式2)
     const chosenTicketNum = chosenDataArray.length;
     showTotalProduct(chosenTicketNum);
 
@@ -66,7 +64,8 @@ function showNumByArea (area){
     }
 };
 
-// 函數2【更新實際查詢筆數文字】
+// 函數2【更新實際查詢筆數的p標籤文字】(也有包在函式1中)
+const searchResultText = document.querySelector('.search-result');
 function showTotalProduct(productNumber){
     searchResultText.textContent = `本次搜尋共 ${productNumber} 筆資料`;
 };
@@ -122,7 +121,7 @@ function dataValueToHTML(element){
 };
 
 // 函式4【創建並更新圓餅圖圖表所需陣列】
-let chart = null; // 把圖表擺在全域變數
+let chart = null; // 把圖表擺在全域變數，可控制載入 or 純陣列更新
 
 function areaCount(dataArray) {
     let areaCountObj = {};
@@ -159,7 +158,7 @@ function areaCount(dataArray) {
             },
             legend: {
                 position: 'right' 
-                // 預設是 'buttom',
+                // 預設是顯示在底部,
             },
             color: {
                 pattern: ['#26be86ff', '#ffd43b', '#6fd7e3ff', '#a3be8c', '#009acd', '#f0a056ff', '#dae277ff']// 示例顏色，請根據您的設計圖調整
@@ -188,26 +187,18 @@ axios.get('https://raw.githubusercontent.com/hexschool/js-training/main/travelAP
 
     data.forEach(element => { 
             element['idTotal'] = (currentDataArray.length - 1) + 1;
-            currentDataArray.push(element)
-
-            //添加到 ul 末端，運用已經事先寫好的 innerHTML模板
-            ulInsertTicket.insertAdjacentHTML('beforeend', dataValueToHTML(element));
-
-            // 更新本次選中的筆數
-            currentTicketNum = currentDataArray.length;
-            showTotalProduct(currentTicketNum);
+            currentDataArray.push(element);
+            showNumByArea('全部地區'); // 函式1 (已包含函式2、3)
         });
 
-    areaCount(currentDataArray);
+    areaCount(currentDataArray); // 函式4 更新圓餅圖
     
-
     })
     .catch(error => {
     console.error('Error:', error);
     })
     .finally(() => {    
     });
-
 
 
 // 3. 監聽使用者在前端的 input 提交，先進行表單驗證，添加至 data 末端(才能編列id)，並渲染至前端
@@ -319,8 +310,7 @@ addTicketBtn.addEventListener('click', function(event) {
 
     // 3-2 取得前端當前 input 值，添加至大陣列的末端(以利下一階段區域篩選)，
     const dataUserInput = {
-        "idTotal": Number(ticketId),
-        "id": '',
+        "id": Number(ticketId),
         "name": String(document.getElementById("ticketInput-name").value),
         "imgUrl": String(document.getElementById("ticketInput-img").value),
         "area": String(document.getElementById("ticketInput-area").value),
@@ -333,13 +323,9 @@ addTicketBtn.addEventListener('click', function(event) {
     currentDataArray.push(dataUserInput); // 大陣列資料已更新
     areaCount(currentDataArray); // 更新圓餅圖
     
-    // 3-3 將大陣列的最後一筆結果渲染至前端(以利input完成當下即時展示)
-    // const addLastTicket = currentDataArray[currentDataArray.length - 1]; // data 內的最後一筆    
-    // ulInsertTicket.insertAdjacentHTML('beforeend', dataValueToHTML(addLastTicket));
-
     // 更新本次選中的筆數(確認當前選擇的地區，決定顯示在前端的筆數和卡片)
     const area = areaChoose.value;
-    showNumByArea (area)
+    showNumByArea (area) // 函式1
     
     // 清空前端 input 內容
     addTicketForm.reset();
@@ -347,12 +333,15 @@ addTicketBtn.addEventListener('click', function(event) {
     // 移除 was-validated，這樣下次 user input時才可以繼續驗證
     addTicketForm.classList.remove('was-validated');
 
+    console.log(currentDataArray)
+
 });
 
 /** 
 ================地區篩選：思路總說明===========
-1. 監聽 <select> 元素 的 change 事件，並從 event.target.value 取得選取的值
-2. 執行函數【根據下拉選單地區，展示商品卡片及選中筆數】
+監聽 <select> 元素 的 change 事件，並從 event.target.value 取得選取的值
+ 1- 執行函數1【根據下拉選單地區，展示商品卡片及選中筆數】(已包含函式2、3)
+ (此階段不用更新甜甜圈)
 ====================================
 **/
 
@@ -360,48 +349,7 @@ addTicketBtn.addEventListener('click', function(event) {
 
 //  <select> 元素通常監聽 'change' 事件
 areaChoose.addEventListener('change', function(event) {  
-    // ulInsertTicket.innerHTML = ''
     const areaName = event.target.value;
-    showNumByArea (areaName);
+    showNumByArea (areaName); // 函式2
 
 });
-
-
-
-
-
-
-
-// 主線任務5-資料備分
-// let data = [
-//     {
-//     "id": 0,
-//     "name": "肥宅心碎賞櫻3日",
-//     "imgUrl": "https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80",
-//     "area": "高雄",
-//     "description": "賞櫻花最佳去處。肥宅不得不去的超讚景點！",
-//     "group": 87,
-//     "price": 1400,
-//     "rate": 10
-//     },
-//     {
-//     "id": 1,
-//     "name": "貓空纜車雙程票",
-//     "imgUrl": "https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
-//     "area": "台北",
-//     "description": "乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感",
-//     "group": 99,
-//     "price": 240,
-//     "rate": 2
-//     },
-//     {
-//     "id": 2,
-//     "name": "台中谷關溫泉會1日",
-//     "imgUrl": "https://images.unsplash.com/photo-1535530992830-e25d07cfa780?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
-//     "area": "台中",
-//     "description": "全館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
-//     "group": 20,
-//     "price": 1765,
-//     "rate": 7
-//     }
-// ];
